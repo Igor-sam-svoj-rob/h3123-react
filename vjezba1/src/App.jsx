@@ -1,5 +1,7 @@
 import HelloFn from "./components/HelloFn";
 import HelloCl from "./components/HelloCl";
+import Message from "./components/Message";
+import Counter from "./components/Counter";
 
 const App = () => {
   return (
@@ -10,6 +12,10 @@ const App = () => {
       <HelloCl ime="Ivan" prezime="Ivić">
         Učimo React. Ovo su Props childreni.
       </HelloCl>
+      <Message />
+      <hr />
+      <br />
+      <Counter />
     </div>
   );
 };
