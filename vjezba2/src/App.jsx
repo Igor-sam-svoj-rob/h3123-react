@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import ListaKartica from "./components/ListaKartica";
+import SearchPolje from "./components/SearchPolje";
 
 export default class App extends Component {
   constructor() {
@@ -40,19 +42,10 @@ export default class App extends Component {
     });
 
     return (
-      <>
-        <input
-          type="search"
-          className="search-box"
-          placeholder="pretraži"
-          onChange={onFilterChange}
-        />
-        <div>
-          {filter.map((osoba) => {
-            return <p key={osoba.id}>{osoba.first_name}</p>;
-          })}
-        </div>
-      </>
+      <div className="app">
+        <SearchPolje onFilterChange={onFilterChange} />
+        <ListaKartica osobe={filter} />
+      </div>
     );
   }
 }
