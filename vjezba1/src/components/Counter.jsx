@@ -1,15 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
-const Counter = () => {
+const Counter = ({ korak }) => {
   const [brojac, setBrojac] = useState(0);
 
-  const uvecaj = () => {
-    setBrojac((prevBrojac) => prevBrojac + 1);
-  };
+  const uvecaj = useCallback(() => {
+    setBrojac((prevBrojac) => prevBrojac + korak);
+  }, [korak]);
 
-  const umanji = () => {
-    setBrojac((prevBrojac) => prevBrojac - 1);
-  };
+  const umanji = useCallback(() => {
+    setBrojac((prevBrojac) => prevBrojac - korak);
+  }, [korak]);
 
   useEffect(() => {
     console.log(brojac);
@@ -19,9 +19,9 @@ const Counter = () => {
     <>
       <div>Brojac {brojac}</div>
       <br />
-      <button onClick={uvecaj}>Dodaj 1</button>
+      <button onClick={uvecaj}>Povećaj za {korak}</button>
       <br />
-      <button onClick={umanji}>Umanji 1</button>
+      <button onClick={umanji}>Smanji za {korak}</button>
     </>
   );
 };
