@@ -7,6 +7,7 @@ export const GithubProvider = ({ children }) => {
   const initialState = {
     users: [],
     user: {},
+    repos: [],
     loading: false,
   };
 
@@ -43,15 +44,26 @@ export const GithubProvider = ({ children }) => {
     });
   };
 
+  const getRepos = async (login) => {
+    const res = await fetch(`https://api.github.com/users/${login}/repos`);
+    const data = await res.json();
+    dispatch({
+      type: "GET_REPOS",
+      data: data,
+    });
+  };
+
   return (
     <GithubContext.Provider
       value={{
         users: state.users,
         user: state.user,
         loading: state.loading,
+        repos: state.repos,
         getUser,
         fetchUsers,
         clearUsers,
+        getRepos,
       }}
     >
       {children}
