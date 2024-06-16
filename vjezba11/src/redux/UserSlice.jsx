@@ -9,9 +9,24 @@ const UserSlice = createSlice({
   ],
 
   reducers: {
-    addUser: (state) => {},
-    editUser: (state) => {},
-    deleteUser: (state) => {},
+    addUser: (state, action) => {
+      state.push(action.payload);
+    },
+    editUser: (state, action) => {
+      const { id, ime, email } = action.payload;
+      const selectedUser = state.find((user) => user.id === id);
+      if (selectedUser) {
+        selectedUser.ime = ime;
+        selectedUser.email = email;
+      }
+    },
+    deleteUser: (state, action) => {
+      const { id } = action.payload;
+      const selectedUser = state.find((user) => user.id === id);
+      if (selectedUser) {
+        return state.filter((user) => user.id !== id);
+      }
+    },
   },
 });
 
