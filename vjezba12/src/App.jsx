@@ -2,9 +2,9 @@ import { useState, useEffect, useRef } from "react";
 import emailjs from "@emailjs/browser";
 
 const App = () => {
-  const initalValues = { user: "", email: "", pass: "" };
+  const initialValues = { user: "", email: "", pass: "" };
   const [formErrors, setFormErrors] = useState({});
-  const [formValues, setFormValues] = useState(initalValues);
+  const [formValues, setFormValues] = useState(initialValues);
   const [isSubmit, setIsSubmit] = useState(false);
 
   const form = useRef();
@@ -12,7 +12,12 @@ const App = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
-    console.log(formValues);
+  };
+
+  const handleFormReset = () => {
+    setFormErrors({});
+    setFormValues(initialValues);
+    setIsSubmit(false);
   };
 
   const handleSubmit = (e) => {
@@ -20,22 +25,24 @@ const App = () => {
     setFormErrors(validate(formValues));
     setIsSubmit(true);
 
-    emailjs
-      .sendForm("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", form.current, {
-        publicKey: "YOUR_PUBLIC_KEY",
-      })
-      .then(
-        () => {
-          console.log("SUCCESS!");
-        },
-        (error) => {
-          console.log("FAILED...", error.text);
-        }
-      );
+    if (Object.keys(validate(formValues)).length === 0) {
+      emailjs
+        .sendForm("service_sqgx10c", "template_ggwpd3n", form.current, {
+          publicKey: "WEmu56w5cCsRuO63q",
+        })
+        .then(
+          () => {
+            console.log("poruka poslana");
+            handleFormReset();
+          },
+          (error) => {
+            console.log("nije uspješno prošlo...", error.text);
+          }
+        );
+    }
   };
 
   useEffect(() => {
-    console.log(formErrors);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       console.log(formValues);
     }
@@ -72,7 +79,7 @@ const App = () => {
         <hr />
         <div className="form">
           <div className="field">
-            <label htmlFor="user">Username</label>
+            <label>Username</label>
             <input
               type="text"
               name="user"
@@ -83,7 +90,7 @@ const App = () => {
           </div>
           <p>{formErrors.user}</p>
           <div className="field">
-            <label htmlFor="email">Email</label>
+            <label>Email</label>
             <input
               type="text"
               name="email"
@@ -94,7 +101,7 @@ const App = () => {
           </div>
           <p>{formErrors.email}</p>
           <div className="field">
-            <label htmlFor="pass">Password</label>
+            <label>Password</label>
             <input
               type="password"
               name="pass"
